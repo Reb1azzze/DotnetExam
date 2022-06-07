@@ -1,0 +1,85 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,200;1,300&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Raleway', sans-serif;
+    background-image: url("background.jpg");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.CreditForm{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 82vh;
+    width: 30vw;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(8.5px);
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.4rem;
+}
+
+.MyInput{
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border-radius: 2rem;
+    padding-left: 2rem;
+    text-overflow: clip;
+    width: 80%;
+    height: 2.5rem;
+    border: none;
+    outline: none;
+    color: #3c354e;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+MyInput:focus {
+     display: inline-block;
+     box-shadow: 0 0 0 0.2rem #b9abe0;
+     backdrop-filter: blur(12rem);
+     border-radius: 2rem;
+}
+
+MyInput::placeholder {
+     color: #b9abe099;
+     font-weight: 100;
+     font-size: 1rem;
+}
+
+select{
+    padding-left: 2rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 2rem;
+    margin-top: 2%;
+    width: 80%;
+    height: 5.5%;
+    font-family: inherit;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: inherit;
+    color: black;
+}
+
+.ErrorMsg {
+    margin-left: 15%;
+    margin-right: 15%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    font-size: 1.35rem;
+    color: red;
+}
