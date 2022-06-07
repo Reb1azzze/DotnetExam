@@ -19,7 +19,7 @@ const CreditForm = () => {
     const [answer,setAnswer] = useState(0.0);
 
     const Validation = () => {
-        setMsg(Validator({fio,age,sum,passport,sud,work,purpose,credits,deposit,autoAge}))
+        setMsg(Validator({fio,age,sum,passport,sud,work,purpose,credits,deposit,autoAge,infoPassport}))
     }
     
     
@@ -31,7 +31,7 @@ const CreditForm = () => {
     
     const showAnswer = () => {
         setMsg("");
-        CreditRequest({fio,age,sum,passport,sud,work,purpose,credits,deposit,autoAge})
+        CreditRequest({fio,age,sum,passport,sud,work,purpose,credits,deposit,autoAge,infoPassport})
             .then(res => {alert (res.data)})
     }
     
@@ -42,6 +42,7 @@ const CreditForm = () => {
             <input className={"MyInput my-2"} maxLength={30} placeholder={" Ваш возраст"} onInput={e => setAge(parseInt(e.currentTarget.value))}/>
             <input className={"MyInput my-2"} maxLength={30} placeholder={" Сумма желаемого кредита"} onInput={e => setSum(parseInt(e.currentTarget.value))}/>
             <input className={"MyInput my-2"} maxLength={30} placeholder={" Паспортные данные(Серия, Номер)"} onInput={e => setPassport(e.currentTarget.value)}/>
+            <input className={"MyInput my-2"} maxLength={30} placeholder={" Кем выдан, когда"} onInput={e => setInfoPassport(e.currentTarget.value)}/>
             
             <select value={sud} onChange={e => setSud(e.currentTarget.value)}>
                 <option hidden value={-1}>Сведения о судимости</option>

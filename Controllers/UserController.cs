@@ -1,4 +1,4 @@
-﻿using CreditApp.Logic;
+﻿using CreditApp.Interfaces;
 using CreditApp.Models;
 using Microsoft.AspNetCore.Mvc;
 namespace CreditApp.Controllers;
@@ -8,9 +8,16 @@ namespace CreditApp.Controllers;
 public class UserController : ControllerBase
 {
 
+    private readonly ICreditLogic CreditLogic;
+    
+    public UserController(ICreditLogic creditLogic)
+    {
+        this.CreditLogic = creditLogic;
+    }
+    
     [HttpPost]
     public async Task<ActionResult<string>> Post(User user)
     {
-        return CreditLogic.CreditIssue(user);
+        return await CreditLogic.CreditIssue(user);
     }
 }

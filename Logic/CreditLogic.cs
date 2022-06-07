@@ -1,18 +1,28 @@
-﻿using CreditApp.Models;
+﻿using CreditApp.Interfaces;
+using CreditApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Hosting;
 
 namespace CreditApp.Logic;
 
-public class CreditLogic
+public class CreditLogic : ICreditLogic
 {
-    private static int CreditPoints = 0;
+    private readonly ICriminalCheck CriminalCheck;
 
-    public static string CreditIssue(User user)
+    public CreditLogic(ICriminalCheck CriminalCheck)
     {
-        CreditPoints = 0;
+        this.CriminalCheck = CriminalCheck;
+    }
+    
+    public async Task<string> CreditIssue(User user)
+    {
+        int CreditPoints = 0;
         int temp = 0;
         CreditPoints += user.Purpose;
 
+        if (Int32.TryParse(user.Sud, out temp)) CreditPoints += temp;
+        else CreditPoints += await SolveCriminalIssue(user);
+        
         if (Int32.TryParse(user.Work, out temp)) CreditPoints += temp;
         else CreditPoints += user.Age < 70 ? 5 : 0;
 
@@ -21,14 +31,20 @@ public class CreditLogic
 
         if (Int32.TryParse(user.Credits, out temp)) CreditPoints += temp;
         else CreditPoints += user.Purpose == 12 ? 0 : 15;
+        
 
         CreditPoints += SolveSumIssue(user);
         CreditPoints += SolveAgeIssue(user);
 
-        return ShowAnswer(SolvePointIssue());
+        return ShowAnswer(SolvePointIssue(CreditPoints),CreditPoints);
     }
 
-    public static int SolveAgeIssue(User user)
+    private async Task<int> SolveCriminalIssue(User user)
+    {
+        return await CriminalCheck.IsCriminal(user) ? 0 : 15;
+    }
+    
+    public int SolveAgeIssue(User user)
     {
         if (user.Age <= 28 && user.Age >= 21)
         {
@@ -43,7 +59,7 @@ public class CreditLogic
         return 8;
     }
 
-    public static int SolveSumIssue(User user)
+    public int SolveSumIssue(User user)
     {
         return user.Sum switch
         {
@@ -53,7 +69,7 @@ public class CreditLogic
         };
     }
 
-    public static double SolvePointIssue()
+    public double SolvePointIssue(int CreditPoints)
     {
         return CreditPoints switch
         {
@@ -67,12 +83,12 @@ public class CreditLogic
         };
     }
 
-    public static string ShowAnswer(double points)
+    public string ShowAnswer(double points,int CreditPoints)
     {
         return points switch
         {
             0 => "В кредите вам отказано, ваш балл: " + CreditPoints,
-            _ => "Поздравляем! вам одобрен кредит! ваша ставка: " + points + " Ваш балл: " + CreditPoints
+            _ => "Поздравляем! вам одобрен кредит! ваша ставка: " + points + "% Ваш балл: " + CreditPoints
         };
     }
 }
